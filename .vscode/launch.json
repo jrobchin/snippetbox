@@ -6,7 +6,8 @@
             "request": "launch",
             "mode": "debug",
             "program": "${workspaceFolder}/cmd/web",
-            "cwd": "${workspaceFolder}"
+            "cwd": "${workspaceFolder}",
+            "args": ["-addr=:4000"]
         }
 
     ]
