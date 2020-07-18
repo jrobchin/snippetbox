@@ -27,19 +27,10 @@ func main() {
 		infoLog:  infoLog,
 	}
 
-	// Initialize a servemux to route handlers
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", app.home)
-	mux.HandleFunc("/snippet", app.showSnippet)
-	mux.HandleFunc("/snippet/create", app.createSnippet)
-
-	fileServer := http.FileServer(http.Dir("../../ui/static"))
-	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
-
 	server := &http.Server{
 		Addr:     *addr,
 		ErrorLog: errorLog,
-		Handler:  mux,
+		Handler:  app.routes(),
 	}
 
 	// Start new web server on port 4000
