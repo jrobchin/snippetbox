@@ -12,6 +12,7 @@ import (
 func renderTemplate(w http.ResponseWriter, templatePath string) error {
 	files := []string{
 		filepath.Join("../../ui/html", templatePath),
+		filepath.Join("../../ui/html/footer.partial.tmpl"),
 		filepath.Join("../../ui/html/base.layout.tmpl"),
 	}
 
