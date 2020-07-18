@@ -2,9 +2,34 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
+	"path/filepath"
 	"strconv"
+	"text/template"
 )
+
+func renderTemplate(w http.ResponseWriter, templatePath string) error {
+	files := []string{
+		filepath.Join("../../ui/html", templatePath),
+		filepath.Join("../../ui/html/base.layout.tmpl"),
+	}
+
+	ts, err := template.ParseFiles(files...)
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Internal Server Error", 500)
+		return err
+	}
+
+	err = ts.Execute(w, nil)
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Internal Server Error", 500)
+	}
+
+	return nil
+}
 
 // Home handler that writes a hello message
 func home(w http.ResponseWriter, r *http.Request) {
@@ -13,7 +38,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write([]byte("Hello from Snippetbox"))
+	renderTemplate(w, "home.page.tmpl")
 }
 
 // Returns a specified snipped
